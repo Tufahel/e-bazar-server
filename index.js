@@ -41,6 +41,25 @@ client.connect(err => {
             })
     })
 
+
+    app.post('/orderList', (req, res) => {
+        const newOrder = req.body;
+        console.log('adding new Order: ', newOrder)
+        ordersCollection.insertOne(newOrder)
+            .then(result => {
+                console.log('inserted count', result.insertedCount);
+                res.send(result.insertedCount > 0)
+            })
+            
+    })
+
+    app.get('/getOrder', (req, res) => {
+        ordersCollection.find()
+            .toArray((err, items) => {
+                res.send(items)
+            })
+    })
+
     // app.get("/chekcout/:id", (req,res)=>{
     //     const id=ObjectID(req.params.id);
     //      console.log("checkout ",id);
